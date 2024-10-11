@@ -8,7 +8,7 @@ This plugin adds a menu item to the Pods menu in Lens. When clicked, it will ope
 
 ## Requirements
 
-1. Download `log-viewer.sh` file ad put it under a `PATH` that you choose. 
+1. Download [log-viewer.sh](https://github.com/Hazem-Ben-Khalfallah/lens-log-viewer/blob/master/log-viewer.sh) file ad put it under a `PATH` that you choose. 
 2. Create a symbolic link by executing the following command 
 ```bash
 sudo ln -s /PATH/log-viewer.sh /usr/local/bin/log-viewer
