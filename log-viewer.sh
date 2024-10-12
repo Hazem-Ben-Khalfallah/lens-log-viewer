@@ -32,22 +32,37 @@ validateParams() {
     fi
 }
 
+format_step_array() {
+  local step_array="$1"
+
+  # Parse the stepArray and format each entry
+  echo "$step_array" | jq -r '.[] | "\(.className)#\(.methodName):\(.lineNumber)"'
+}
 
 # Function to recursively print throwable causes
 print_throwable() {
   local throwable="$1"
   
   # Extract the throwable details
-  message=$(echo "$throwable" | jq -r '.formattedMessage')
-  steps=$(echo "$throwable" | jq -r '.formattedStepArray')
-  
+  message=$(echo -e "$throwable" | jq -r '.formattedMessage // .message')
+  formattedStepArray=$(echo "$throwable" | jq -r '.formattedStepArray')
+  stepArray=$(echo "$throwable" | jq -r '.stepArray')
+
   # Print the throwable details with indentation
-  echo -e "Message: $message"
-  echo -e "Steps:\n$steps"
-  
+  echo -e "$message"
+
+  if [ -n "$formattedStepArray" ] && [ "$formattedStepArray" != "null" ]; then
+    echo -e "$formattedStepArray"
+  fi
+
+  if [ -n "$stepArray"  ]; then
+    format_step_array "$stepArray"
+  fi
+
   # Check if there is a cause
   local cause=$(echo "$throwable" | jq -c '.cause // empty')
-  if [ -n "$cause" ]; then
+
+  if [ -n "$cause" ] && [ "$cause" != "null" ]; then
     echo -e "\033[0;33mCaused by:\033[0m"
     print_throwable "$cause"
   fi
@@ -107,14 +122,14 @@ format_json_line() {
   echo -e "[$version] $timestamp $(color_log_level "$level") $message"
 
   # If MDC exists, format it as a comma-separated key-value pair line
-  if [ -n "$mdc" ]; then
+  if [ -n "$mdc" ] && [ "$mdc" != "{}" ]; then
     formatted_mdc=$(format_mdc "$mdc")
     echo -e "\t--> context: $formatted_mdc"
   fi
   
   # If a throwable exists, print its details
   if [ -n "$throwable" ]; then
-    echo "Throwable:"
+    echo -e "\033[0;33mThrowable:\033[0m:"
     print_throwable "$throwable"
   fi
 
