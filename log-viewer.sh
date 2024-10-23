@@ -113,13 +113,14 @@ format_json_line() {
 
   version=$(echo "$log_line" | jq -r '.version')
   timestamp=$(echo "$log_line" | jq -r '.timestamp')
+  formatted_timestamp=$(date -d @"$((timestamp / 1000))" +"%Y-%m-%d %H:%M:%S %:z")
   level=$(echo "$log_line" | jq -r '.level')
   message=$(echo "$log_line" | jq -r '.message')
   mdc=$(echo "$log_line" | jq -r '.mdc // empty')
   throwable=$(echo "$log_line" | jq -c '.throwable // empty')
 
   # Format and display the log entry
-  echo -e "[$version] $timestamp $(color_log_level "$level") $message"
+  echo -e "[$version] $formatted_timestamp $(color_log_level "$level") $message"
 
   # If MDC exists, format it as a comma-separated key-value pair line
   if [ -n "$mdc" ] && [ "$mdc" != "{}" ]; then
