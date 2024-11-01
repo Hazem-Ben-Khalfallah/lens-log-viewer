@@ -93,7 +93,7 @@ export class PodLogs {
     containerName?: string
   ) {
     // Generate log command with log-viewer
-    const cmd = `kubectl logs -f -n ${resourceNs} ${resourceName} -c ${containerName} --tail=300 | log-viewer`
+    const cmd = `kubectl logs -f -n ${resourceNs} ${resourceName} -c ${containerName} --tail=10 | log-viewer`
 
     // Open new terminal
     this.openTerminal(

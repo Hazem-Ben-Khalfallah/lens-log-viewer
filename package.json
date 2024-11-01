@@ -1,6 +1,6 @@
 {
 	"name": "@hazem-ben-khalfallah/lens-log-viewer",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "A Json log viewer for Lens",
 	"publisher": "@hazem-ben-khalfallah/lens-log-viewer",
 	"main": "dist/main.js",
