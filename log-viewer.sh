@@ -1,7 +1,7 @@
 #!/bin/bash
 
 FILE=""
-lines=10
+lines=1
 
 usage() {
     echo "usage: [-h] [FILE]"
