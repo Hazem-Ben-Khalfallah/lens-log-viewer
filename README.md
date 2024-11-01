@@ -39,6 +39,10 @@ occurs, refresh Lens and it should appear.
 
 Enjoy!
 
+### 0.0.5
+
+reduce retrieved log size
+
 ### 0.0.1
 
 Initial release of the lens-log-viewer contains minimal functionality and allows
