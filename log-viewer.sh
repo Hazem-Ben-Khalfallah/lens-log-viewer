@@ -44,7 +44,7 @@ print_throwable() {
   local throwable="$1"
   
   # Extract the throwable details
-  message=$(echo -e "$throwable" | jq -r '.formattedMessage // .message')
+  message=$(echo "$throwable" | jq -r '.formattedMessage // .message')
   formattedStepArray=$(echo "$throwable" | jq -r '.formattedStepArray')
   stepArray=$(echo "$throwable" | jq -r '.stepArray')
 
@@ -55,7 +55,7 @@ print_throwable() {
     echo -e "$formattedStepArray"
   fi
 
-  if [ -n "$stepArray"  ]; then
+  if [ -n "$stepArray" ] && [ "$stepArray" != "null" ]; then
     format_step_array "$stepArray"
   fi
 
@@ -130,7 +130,7 @@ format_json_line() {
   
   # If a throwable exists, print its details
   if [ -n "$throwable" ]; then
-    echo -e "\033[0;33mThrowable:\033[0m:"
+    echo -e "\033[0;33mThrowable:\033[0m"
     print_throwable "$throwable"
   fi
 
